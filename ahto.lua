@@ -7,6 +7,8 @@
 -- TODO: Gravel-clearing dig.
 
 function tablePrint(tbl, indent) -- {{{1
+    -- Pretty-prints a table to the console.
+
     -- This isn't my code but I don't remember where I got it.
     -- Invaluable for debugging.
     if not indent then indent = 0 end
