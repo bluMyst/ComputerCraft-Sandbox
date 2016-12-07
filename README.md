@@ -13,12 +13,14 @@ I want to eventually port this to use pure MoonScript. To do that, I need a
 unittesting framework to make sure my ports are working properly. So here's
 what I need to do:
 
-1. Figure out what all my code does and comment it accordingly.
+- Figure out what all my code does and comment it accordingly.
 
-2. Create a makefile that can compile from MoonScript to Lua.
+- Create a makefile that can compile from MoonScript to Lua.
 
-3. Find a good unittesting module out there somewhere and set up unittests for
-   everything. Write in MoonScript because it's going to get ported anyway.
+- Find a good unittesting module out there somewhere and set up unittests for
+  everything. Write in MoonScript because it's going to get ported anyway.
 
-   - Subgoal: Make a fake turtle module that doesn't rely on the mod itself.
-     Otherwise there's a lot of stuff we just can't unittest.
+  - Subgoal: Make a fake turtle module that doesn't rely on the mod itself.
+    Otherwise there's a lot of stuff we just can't unittest.
+
+- Either find a good library that can handle stuff like tableCopy and tableAppend, or write unittests for my own functions and split them off into an ahtoLib.
