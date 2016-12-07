@@ -6,7 +6,7 @@ A test bed for my other ComputerCraft projects.
 Lua 5.2 isn't supported by MoonScript yet, so:
 
     sudo apt install lua5.1 luarocks
-    sudo luarocks install moonscript
+    sudo luarocks install moonscript busted
 
 # Goals and direction.
 I want to eventually port this to use pure MoonScript. To do that, I need a
