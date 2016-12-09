@@ -1,4 +1,7 @@
 -- Pretend to be the ComputerCraft turtle API. For unit testing.
+-- TODO: This actually won't work as an emulator because all of the Turtle
+-- methods expect to be called as Turtle\method() instead of Turtle.method().
+-- This is kind of a problem. :/
 
 export class Turtle
     -------------------------------------------------------------
