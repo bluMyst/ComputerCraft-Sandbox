@@ -5,8 +5,10 @@ class Turtle
     -------------------- Constants and new() --------------------
     -------------------------------------------------------------
     -- Heading is where the turtle is facing. 0 is north, 90 is east, etc.
-    @@heading = 0
-    @@selectedSlot = 1
+    @heading = 0
+    @selectedSlot = 1
+    @pos = {0, 0, 0}
+    @fuelLevel = 0
 
     new: =>
         -- This is necessary because it generates all of the methods that call
@@ -47,35 +49,79 @@ class Turtle
                    'suck', 'drop', 'attack'}
             @setXHandler i, nop
 
+    -------------------------------------------------------------
+    -------------------- Moving and turning. --------------------
+    -------------------------------------------------------------
+    turn: (angle) =>
         -- This also works for negative values. -90 % 360 == 270. Cool!
-        @@heading = newHeading % 360
+        @heading = (@heading + angle) % 360
 
-    turnLeft:  => @@setHeading @@heading - 90
-    turnRight: => @@setHeading @@heading + 90
+    move: (delta, useFuel=true) =>
+        if useFuel and not @useFuel(1)
+            return false
 
-    setSelectedSlot: (slot) => @@selectedSlot = slot
-    getSelectedSlot:        => @@selectedSlot
+        for i, v in *ipairs(delta)
+            @pos[i] += v
 
-    forwardUpDownHandler = (func) ->
-        -- This lets you split a handler into three little sub-functions. One
-        -- for @dig, one for @digUp, and one for @digDown. Or inspect or detect
-        -- or whatever.
+        return true
+
+    turnLeft:  => @setHeading @heading - 90
+    turnRight: => @setHeading @heading + 90
+
+    -- TODO: Fuel checks for forward, back, etc.
+    moveForward: (distance) =>
+        -- Move relative to the current heading. Used for forward (distance 1)
+        -- and back (distance -1) because they move in different directions
+        -- depending on where the turtle is facing.
+
+        if @heading == 0
+            --    z
+            -- -x ^ x
+            --   -z
+            @move {0, 0, distance}
+        elseif @heading == 90
+            --    z
+            -- -x -> x
+            --   -z
+            @move {distance, 0, 0}
+        elseif @heading == 180
+            --    z
+            -- -x V x
+            --   -z
+            @move {0, 0, -distance}
+        elseif @heading == 270
+            --     z
+            -- -x <- x
+            --    -z
+            @move {-distance, 0, 0}
+
+    up:   => @move {0,  1, 0}
+    down: => @move {0, -1, 0}
+
+    forward:  => moveForward 1
+    back:     => moveForward -1
+
+    -------------------------------------------------------------
+    -------------------- Inventory and fuel. --------------------
+    -------------------------------------------------------------
+    setSelectedSlot: (slot) => @selectedSlot = slot
+    getSelectedSlot:        => @selectedSlot
+
+    getFuelLevel: => @fuelLevel
+
+    refuel: =>
+        -- Only gives a tiny amount of fuel at a time, to stress-test refueling
+        -- code.
+        @fuelLevel += 4
+
+    useFuel: (amount=1) =>
+        -- Returns whether we have that much fuel available. If so, subtracts
+        -- that much from our @fuelLevel.
         --
-        -- Note that the function isn't called with a "self". This runs
-        -- self.handler, rather than self\handler.
+        -- Call this inside of stuff like @forward to make sure we have enough.
 
-        forward = => func 1
-        up      = => func 3
-        down    = => func 4
-
-        return forward, up, down
-
-    -- TODO: Is this passed by reference or by value? This approach probably
-    -- won't work.
-    @dig,      @digUp,      @digDown     = forwardUpDownWrapper @digHandler
-    @detect,   @detectUp,   @detectDown  = forwardUpDownWrapper @detectHandler
-    @inspect,  @inspectUp,  @inspectDown = forwardUpDownWrapper @inspectHandler
-    @place,    @placeUp,    @placeDown   = forwardUpDownWrapper @placeHandler
-    @suck,     @suckUp,     @suckDown    = forwardUpDownWrapper @suckHandler
-    @drop,     @dropUp,     @dropDown    = forwardUpDownWrapper @dropHandler
-    @attack,   @attackUp,   @attackDown  = forwardUpDownWrapper @attackHandler
+        if @fuelLevel - amount < 0
+            return false
+        else
+            @fuelLevel -= amount
+            return true
