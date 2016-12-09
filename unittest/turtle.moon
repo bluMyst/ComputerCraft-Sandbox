@@ -60,7 +60,7 @@ export class Turtle
         if useFuel and not @useFuel(1)
             return false
 
-        for i, v in *ipairs(delta)
+        for i, v in ipairs(delta)
             @pos[i] += v
 
         return true
