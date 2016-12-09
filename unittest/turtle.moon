@@ -32,13 +32,13 @@ export class Turtle
         @[x.."Up"]   = => handler 2
         @[x.."Down"] = => handler 3
 
-    setDigHandler:      (handler) => setXHandler 'dig',      handler
-    setDetectHandler:   (handler) => setXHandler 'detect',   handler
-    setInspectHandler:  (handler) => setXHandler 'inspect',  handler
-    setPlaceHandler:    (handler) => setXHandler 'place',    handler
-    setSuckHandler:     (handler) => setXHandler 'suck',     handler
-    setDropHandler:     (handler) => setXHandler 'drop',     handler
-    setAttackHandler:   (handler) => setXHandler 'attack',   handler
+    setDigHandler:      (handler) => @setXHandler 'dig',      handler
+    setDetectHandler:   (handler) => @setXHandler 'detect',   handler
+    setInspectHandler:  (handler) => @setXHandler 'inspect',  handler
+    setPlaceHandler:    (handler) => @setXHandler 'place',    handler
+    setSuckHandler:     (handler) => @setXHandler 'suck',     handler
+    setDropHandler:     (handler) => @setXHandler 'drop',     handler
+    setAttackHandler:   (handler) => @setXHandler 'attack',   handler
 
     clearAllHandlers: =>
 
