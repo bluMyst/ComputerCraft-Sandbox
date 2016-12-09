@@ -98,8 +98,8 @@ export class Turtle
     up:   => @move {0,  1, 0}
     down: => @move {0, -1, 0}
 
-    forward:  => moveForward 1
-    back:     => moveForward -1
+    forward:  => @moveForward 1
+    back:     => @moveForward -1
 
     -------------------------------------------------------------
     -------------------- Inventory and fuel. --------------------
