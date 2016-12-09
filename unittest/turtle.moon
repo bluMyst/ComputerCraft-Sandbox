@@ -4,13 +4,13 @@ export class Turtle
     -------------------------------------------------------------
     -------------------- Constants and new() --------------------
     -------------------------------------------------------------
-    -- Heading is where the turtle is facing. 0 is north, 90 is east, etc.
-    @heading = 0
-    @selectedSlot = 1
-    @pos = {0, 0, 0}
-    @fuelLevel = 0
-
     new: =>
+        -- Heading is where the turtle is facing. 0 is north, 90 is east, etc.
+        @heading = 0
+        @selectedSlot = 1
+        @pos = {0, 0, 0}
+        @fuelLevel = 0
+
         -- This is necessary because it generates all of the methods that call
         -- handlers. Without this, @dig, @placeDown, etc. will just be nil.
         @clearAllHandlers()
