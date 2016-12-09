@@ -1,25 +1,52 @@
 -- Pretend to be the ComputerCraft turtle API. For unit testing.
 
 class Turtle
+    -------------------------------------------------------------
+    -------------------- Constants and new() --------------------
+    -------------------------------------------------------------
     -- Heading is where the turtle is facing. 0 is north, 90 is east, etc.
     @@heading = 0
     @@selectedSlot = 1
 
+    new: =>
+        -- This is necessary because it generates all of the methods that call
+        -- handlers. Without this, @dig, @placeDown, etc. will just be nil.
+        @clearAllHandlers()
+
+    ---------------------------------------------------
+    -------------------- Handlers. --------------------
+    ---------------------------------------------------
     -- These are for if you want to simulate inputs. Helpful for unittesting.
     -- For example, when @dig gets called, it returns the result of
     -- @digHandler(1), because 1 is agreed to be FORWARD by my other code.
     --
     -- The handlers will get called with either 1 (FORWARD), 3 (UP), or 4
     -- (DOWN).
-    @digHandler     = ->
-    @detectHandler  = ->
-    @inspectHandler = ->
-    @placeHandler   = ->
-    @suckHandler    = ->
-    @dropHandler    = ->
-    @attackHandler  = ->
+    setXHandler: (x, handler) =>
+        -- x is a string like 'suck', 'drop', 'attack', etc.
+        @[x.."Handler"] = handler
 
-    @setHeading: (newHeading) =>
+        @[x]         = => handler 1
+        @[x.."Up"]   = => handler 2
+        @[x.."Down"] = => handler 3
+
+    setDigHandler:      (handler) => setXHandler 'dig',      handler
+    setDetectHandler:   (handler) => setXHandler 'detect',   handler
+    setInspectHandler:  (handler) => setXHandler 'inspect',  handler
+    setPlaceHandler:    (handler) => setXHandler 'place',    handler
+    setSuckHandler:     (handler) => setXHandler 'suck',     handler
+    setDropHandler:     (handler) => setXHandler 'drop',     handler
+    setAttackHandler:   (handler) => setXHandler 'attack',   handler
+
+    clearAllHandlers: =>
+
+        -- A function that does nothing.
+        nop = ->
+
+        for i in *{'dig', 'detect', 'inspect', 'place',
+                   'suck', 'drop', 'attack'}
+            @setXHandler i, nop
+
         -- This also works for negative values. -90 % 360 == 270. Cool!
         @@heading = newHeading % 360
 
