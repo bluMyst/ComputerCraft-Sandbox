@@ -65,8 +65,8 @@ export class Turtle
 
         return true
 
-    turnLeft:  => @setHeading @heading - 90
-    turnRight: => @setHeading @heading + 90
+    turnLeft:  => @turn -90
+    turnRight: => @turn  90
 
     -- TODO: Fuel checks for forward, back, etc.
     moveForward: (distance) =>
