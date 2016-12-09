@@ -1,6 +1,6 @@
 -- Pretend to be the ComputerCraft turtle API. For unit testing.
 
-class Turtle
+export class Turtle
     -------------------------------------------------------------
     -------------------- Constants and new() --------------------
     -------------------------------------------------------------
