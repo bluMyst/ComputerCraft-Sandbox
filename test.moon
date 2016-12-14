@@ -111,6 +111,33 @@ describe "turn tests", ->
 
             assert.is.equal turtleAPIEmulator.heading, 0
 
+    describe "turnDoWrapper", ->
+        fail = ->
+            assert.is_true false
+
+        noTurn = ->
+            assert.is.equal turtleAPIEmulator.heading, 0
+
+        turnLeft = ->
+            assert.is.equal turtleAPIEmulator.heading, 270
+
+        turnRight = ->
+            assert.is.equal turtleAPIEmulator.heading, 90
+
+        turnAround = ->
+            assert.is.equal turtleAPIEmulator.heading, 180
+
+        describe "no turn", ->
+            it "forward", -> turnDoWrapper(noTurn, fail, fail, fail)(FORWARD)
+            it "up",      -> turnDoWrapper(fail, noTurn, fail, fail)(UP)
+            it "down",    -> turnDoWrapper(fail, fail, noTurn, fail)(DOWN)
+            it "back",    -> turnDoWrapper(fail, fail, fail, noTurn)(BACK)
+
+        describe "turn", ->
+            it "left", ->   turnDoWrapper(turnLeft, fail, fail, fail)(LEFT)
+            it "right", ->  turnDoWrapper(turnRight, fail, fail, fail)(RIGHT)
+            it "around", -> turnDoWrapper(turnAround, fail, fail)(BACK)
+
 describe "slot-modifying tests", ->
     -- Reset the heading before each test and after the describe block ends.
     resetSlot = -> turtleAPIEmulator.selectedSlot = 1
