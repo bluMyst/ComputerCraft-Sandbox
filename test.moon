@@ -97,19 +97,19 @@ describe "turn tests", ->
             turnDo LEFT, ->
                 assert.is.equal turtleAPIEmulator.heading, 270
 
-            assert.is.equal turtleAPIEmulator.heading 0
+            assert.is.equal turtleAPIEmulator.heading, 0
 
         it "right", ->
             turnDo RIGHT, ->
                 assert.is.equal turtleAPIEmulator.heading, 90
 
-            assert.is.equal turtleAPIEmulator.heading 0
+            assert.is.equal turtleAPIEmulator.heading, 0
 
         it "back", ->
             turnDo BACK, ->
                 assert.is.equal turtleAPIEmulator.heading, 180
 
-            assert.is.equal turtleAPIEmulator.heading 0
+            assert.is.equal turtleAPIEmulator.heading, 0
 
 describe "slot-modifying tests", ->
     -- Reset the heading before each test and after the describe block ends.
