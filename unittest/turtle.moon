@@ -144,11 +144,27 @@ export class TurtleAPIEmulator
 -- using it like the real thing.
 
 export turtleAPIEmulator = TurtleAPIEmulator()
-export turtle = {}
 
+export turtle = setmetatable {}, {
+    __index: (table, key) ->
+        value = turtleAPIEmulator[key]
+
+        if type(value) == 'function'
+            oldFunction = value
+            value = (...) ->
+                return oldFunction turtleAPIEmulator, ...
+
+        return value
+}
+
+
+--export turtle = {}
+
+-- TODO: This doesn't work at all. pairs() can't see anything except the
+-- methods created by clearAllHandlers() when we run new() for the first time.
 -- For every turtleAPIEmulator\methodName, create a matching turtle.methodName
 -- that calls it.
-for k, v in pairs(turtleAPIEmulator)
-    if type(v) == 'function'
-        turtle[k] = (...) ->
-            return v turtleAPIEmulator, ...
+--for k, v in pairs(turtleAPIEmulator)
+--    if type(v) == 'function'
+--        turtle[k] = (...) ->
+--            return v turtleAPIEmulator, ...
