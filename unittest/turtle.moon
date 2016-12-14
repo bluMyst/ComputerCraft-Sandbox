@@ -1,9 +1,6 @@
 -- Pretend to be the ComputerCraft turtle API. For unit testing.
--- TODO: This actually won't work as an emulator because all of the Turtle
--- methods expect to be called as Turtle\method() instead of Turtle.method().
--- This is kind of a problem. :/
 
-export class Turtle
+export class TurtleAPIEmulator
     -------------------------------------------------------------
     -------------------- Constants and new() --------------------
     -------------------------------------------------------------
@@ -128,3 +125,21 @@ export class Turtle
         else
             @fuelLevel -= amount
             return true
+
+--------------------------------------------------------------
+-------------------- Generate turtle API. --------------------
+--------------------------------------------------------------
+
+-- Why does all this code exist down here? Well, turtle API functions are called
+-- like "turtle.function" and not "turtle\function", which means we need to do
+-- some jiggery pokery to get our TurtleAPIEmulator to work as a real emulator.
+
+export turtleAPIEmulator = TurtleAPIEmulator()
+export turtle = {}
+
+-- For every turtleAPIEmulator\methodName, create a matching turtle.methodName
+-- that calls it.
+for k, v in *pairs(turtleAPIEmulator)
+    if type(v) == 'function'
+        turtle[k] = (...) ->
+            return v turtleAPIEmulator, ...
