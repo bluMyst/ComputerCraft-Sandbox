@@ -2,22 +2,22 @@ require "ahto"
 
 describe "dir2string", ->
     it "dir2string(FORWARD)", ->
-        assert.is_true dir2string(FORWARD) == 'forward'
+        assert.is.equal dir2string(FORWARD), 'forward'
 
     it "dir2string(BACK)", ->
-        assert.is_true dir2string(BACK) == 'back'
+        assert.is.equal dir2string(BACK), 'back'
 
     it "dir2string(UP)", ->
-        assert.is_true dir2string(UP) == 'up'
+        assert.is.equal dir2string(UP), 'up'
 
     it "dir2string(DOWN)", ->
-        assert.is_true dir2string(DOWN) == 'down'
+        assert.is.equal dir2string(DOWN), 'down'
 
     it "dir2string(LEFT)", ->
-        assert.is_true dir2string(LEFT) == 'left'
+        assert.is.equal dir2string(LEFT), 'left'
 
     it "dir2string(RIGHT)", ->
-        assert.is_true dir2string(RIGHT) == 'right'
+        assert.is.equal dir2string(RIGHT), 'right'
 
 describe "isTurnDir", ->
     it "isTurnDir should return false here", ->
@@ -28,8 +28,37 @@ describe "isTurnDir", ->
         for dir in *{LEFT, RIGHT, BACK}
             assert.is_true isTurnDir dir
 
-describe "turn", ->
-    pending()
+it "partial", ->
+    testFunc = (...) -> {...}
 
-describe "turnBack", ->
-    pending()
+    testFuncFoo    = partial testFunc, 'foo'
+    testFuncFooBar = partial testFunc, 'foo', 'bar'
+
+    assert.is.equal testFuncFoo('baz'),    {'foo', 'baz'}
+    assert.is.equal testFuncFooBar('baz'), {'foo', 'bar', 'baz'}
+
+    -- Test them again to make sure partial can handle multiple calls. Why not?
+    assert.is.equal testFuncFoo('baz'),    {'foo', 'baz'}
+    assert.is.equal testFuncFooBar('baz'), {'foo', 'bar', 'baz'}
+
+describe "direction constants", ->
+    it "dirs aliases", ->
+        assert.is.equals dirs, d, directions
+
+    it "forward", ->
+        assert.is.equals FORWARD, F, dirs.forward, dirs.f
+
+    it "back", ->
+        assert.is.equals BACK, BACKWARD, B, dirs.back, dirs.backward, dirs.b
+
+    it "up", ->
+        assert.is.equals UP, U, dirs.up, dirs.u
+
+    it "down", ->
+        assert.is.equals DOWN, D, dirs.down, dirs.d
+
+    it "left", ->
+        assert.is.equals LEFT, L, dirs.left, dirs.l
+
+    it "right", ->
+        assert.is.equals RIGHT, R, dirs.right, dirs.r
