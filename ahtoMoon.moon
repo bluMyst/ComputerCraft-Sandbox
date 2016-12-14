@@ -1,22 +1,22 @@
 export dirs = {
-    forward  = 1,
-    f        = 1,
+    forward:   1,
+    f:         1,
 
-    back     = 2,
-    backward = 2,
-    b        = 2,
+    back:      2,
+    backward:  2,
+    b:         2,
 
-    up       = 3,
-    u        = 3,
+    up:        3,
+    u:         3,
 
-    down     = 4,
-    d        = 4,
+    down:      4,
+    d:         4,
 
-    left     = 5,
-    l        = 5,
+    left:      5,
+    l:         5,
 
-    right    = 6,
-    r        = 6,
+    right:     6,
+    r:         6,
 }
 
 -- Some aliases.
