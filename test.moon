@@ -5,6 +5,8 @@
 require "unittest.turtle"
 require "ahto"
 
+-- TODO: getItemCount, getItemSpace, getItemDetail, fuel()
+
 describe "dir2string", ->
     it "dir2string(FORWARD)", ->
         assert.is.equal dir2string(FORWARD), 'forward'
@@ -138,7 +140,7 @@ describe "turn tests", ->
             it "right", ->  turnDoWrapper(turnRight, fail, fail, fail)(RIGHT)
             it "around", -> turnDoWrapper(turnAround, fail, fail)(BACK)
 
-describe "slot-modifying tests", ->
+describe "slot-modifying", ->
     -- Reset the heading before each test and after the describe block ends.
     resetSlot = -> turtleAPIEmulator.selectedSlot = 1
     before_each resetSlot
@@ -159,3 +161,28 @@ describe "slot-modifying tests", ->
         assert.is.same slotDoTest(2, 2, 'foo', 'bar'), {'foo', 'bar'}
         assert.is.same slotDoTest(1, 1, 'baz'), {'baz'}
         assert.is.same slotDoTest(16, 16), {}
+
+describe "fuel-modifying", ->
+    resetStuff = ->
+        turtleAPIEmulator.fuelLevel = 0
+        turtleAPIEmulator.heading = 0
+        turtleAPIEmulator.pos = {0, 0, 0}
+        turtleAPIEmulator.selectedSlot = 1
+
+    before_each resetStuff
+    teardown resetStuff
+
+    it "fuel()", ->
+        for i=1, 16
+            turtleAPIEmulator.fuelLevel = i
+            assert.is.equal fuel(), turtleAPIEmulator.fuelLevel
+
+    describe "Fueler", ->
+        fueler = Fueler\create 16
+
+        it "move forward a bunch", ->
+            for _=1, 16
+                fueler\move FORWARD
+                assert.is_true turtleAPIEmulator.fuelLevel >= 0
+
+            assert.is.equal turtleAPIEmulator.pos[3], 16
