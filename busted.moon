@@ -1,3 +1,5 @@
+-- It's important that these requires are in this order, because ahto requires
+-- the fake turtle functions to be able to run properly.
 require "unittest.turtle"
 require "ahto"
 
@@ -35,12 +37,12 @@ it "partial", ->
     testFuncFoo    = partial testFunc, 'foo'
     testFuncFooBar = partial testFunc, 'foo', 'bar'
 
-    assert.is.equal testFuncFoo('baz'),    {'foo', 'baz'}
-    assert.is.equal testFuncFooBar('baz'), {'foo', 'bar', 'baz'}
+    assert.is.same testFuncFoo('baz'),    {'foo', 'baz'}
+    assert.is.same testFuncFooBar('baz'), {'foo', 'bar', 'baz'}
 
     -- Test them again to make sure partial can handle multiple calls. Why not?
-    assert.is.equal testFuncFoo('baz'),    {'foo', 'baz'}
-    assert.is.equal testFuncFooBar('baz'), {'foo', 'bar', 'baz'}
+    assert.is.same testFuncFoo('baz'),    {'foo', 'baz'}
+    assert.is.same testFuncFooBar('baz'), {'foo', 'bar', 'baz'}
 
 describe "direction constants", ->
     it "dirs aliases", ->
