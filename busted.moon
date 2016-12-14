@@ -1,5 +1,5 @@
-require "ahto"
 require "unittest.turtle"
+require "ahto"
 
 describe "dir2string", ->
     it "dir2string(FORWARD)", ->
