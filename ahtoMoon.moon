@@ -41,7 +41,7 @@ export L        = 5
 export RIGHT    = 6
 export R        = 6
 
-dir2string = (dir) ->
+export dir2string = (dir) ->
     return switch dir
         when FORWARD then 'forward'
         when BACK    then 'back'
@@ -50,21 +50,21 @@ dir2string = (dir) ->
         when LEFT    then 'left'
         when RIGHT   then 'right'
 
-isTurnDir = (dir) ->
+export isTurnDir = (dir) ->
     return switch dir
         when LEFT  then true
         when RIGHT then true
         when BACK  then true
         else            false
 
-turn = (dir) ->
+export turn = (dir) ->
     return switch dir
         when BACK  then turn(RIGHT) and turn(RIGHT)
         when LEFT  then turtle.turnLeft()
         when RIGHT then turtle.turnRight()
         else            false
 
-turnBack = (dir) ->
+export turnBack = (dir) ->
     return switch dir
         when FORWARD then true
         when UP      then true
@@ -75,7 +75,7 @@ turnBack = (dir) ->
         when RIGHT then turn LEFT
         else            false
 
-turnDo = (dir, f) ->
+export turnDo = (dir, f) ->
     -- TODO: eDir is a horrible variable name.
     eDir = if isTurnDir(dir) then FORWARD else dir
 
