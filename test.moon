@@ -1,3 +1,5 @@
+-- Designed to be run with busted: https://olivinelabs.com/busted/
+
 -- It's important that these requires are in this order, because ahto requires
 -- the fake turtle functions to be able to run properly.
 require "unittest.turtle"
