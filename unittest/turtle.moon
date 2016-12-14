@@ -156,15 +156,3 @@ export turtle = setmetatable {}, {
 
         return value
 }
-
-
---export turtle = {}
-
--- TODO: This doesn't work at all. pairs() can't see anything except the
--- methods created by clearAllHandlers() when we run new() for the first time.
--- For every turtleAPIEmulator\methodName, create a matching turtle.methodName
--- that calls it.
---for k, v in pairs(turtleAPIEmulator)
---    if type(v) == 'function'
---        turtle[k] = (...) ->
---            return v turtleAPIEmulator, ...
