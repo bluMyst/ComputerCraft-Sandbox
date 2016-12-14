@@ -41,8 +41,7 @@ export class TurtleAPIEmulator
     setAttackHandler:   (handler) => @setXHandler 'attack',   handler
 
     clearAllHandlers: =>
-
-        -- A function that does nothing.
+        -- Set all handlers to just be 'nop': A function that does nothing.
         nop = ->
 
         for i in *{'dig', 'detect', 'inspect', 'place',
@@ -52,8 +51,15 @@ export class TurtleAPIEmulator
     -------------------------------------------------------------
     -------------------- Moving and turning. --------------------
     -------------------------------------------------------------
-    turn: (angle) =>
+    setHeading: (angle) =>
         -- This also works for negative values. -90 % 360 == 270. Cool!
+        angle %= 360
+
+        assert angle % 90 == 0, "turtle\\setHeading(#{angle}): Not a right angle."
+
+        @heading = angle
+
+    turn: (angle) =>
         @heading = (@heading + angle) % 360
 
     move: (delta, useFuel=true) =>
@@ -68,32 +74,34 @@ export class TurtleAPIEmulator
     turnLeft:  => @turn -90
     turnRight: => @turn  90
 
-    -- TODO: Fuel checks for forward, back, etc.
     moveForward: (distance) =>
         -- Move relative to the current heading. Used for forward (distance 1)
         -- and back (distance -1) because they move in different directions
         -- depending on where the turtle is facing.
 
-        if @heading == 0
-            --    z
-            -- -x ^ x
-            --   -z
-            @move {0, 0, distance}
-        elseif @heading == 90
-            --    z
-            -- -x -> x
-            --   -z
-            @move {distance, 0, 0}
-        elseif @heading == 180
-            --    z
-            -- -x V x
-            --   -z
-            @move {0, 0, -distance}
-        elseif @heading == 270
-            --     z
-            -- -x <- x
-            --    -z
-            @move {-distance, 0, 0}
+        switch @heading
+            when 0
+                --    z
+                -- -x ^ x
+                --   -z
+                @move {0, 0, distance}
+            when 90
+                --    z
+                -- -x -> x
+                --   -z
+                @move {distance, 0, 0}
+            when 180
+                --    z
+                -- -x V x
+                --   -z
+                @move {0, 0, -distance}
+            when 270
+                --     z
+                -- -x <- x
+                --    -z
+                @move {-distance, 0, 0}
+            else
+                error "turtle.heading isn't a right angle."
 
     up:   => @move {0,  1, 0}
     down: => @move {0, -1, 0}
@@ -132,7 +140,8 @@ export class TurtleAPIEmulator
 
 -- Why does all this code exist down here? Well, turtle API functions are called
 -- like "turtle.function" and not "turtle\function", which means we need to do
--- some jiggery pokery to get our TurtleAPIEmulator to work as a real emulator.
+-- some jiggery pokery to get our TurtleAPIEmulator to fool existing code into
+-- using it like the real thing.
 
 export turtleAPIEmulator = TurtleAPIEmulator()
 export turtle = {}
