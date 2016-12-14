@@ -61,6 +61,7 @@ export class TurtleAPIEmulator
 
     turn: (angle) =>
         @heading = (@heading + angle) % 360
+        return true
 
     move: (delta, useFuel=true) =>
         if useFuel and not @useFuel(1)
