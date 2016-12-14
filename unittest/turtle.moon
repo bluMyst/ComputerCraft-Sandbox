@@ -148,7 +148,7 @@ export turtle = {}
 
 -- For every turtleAPIEmulator\methodName, create a matching turtle.methodName
 -- that calls it.
-for k, v in *pairs(turtleAPIEmulator)
+for k, v in pairs(turtleAPIEmulator)
     if type(v) == 'function'
         turtle[k] = (...) ->
             return v turtleAPIEmulator, ...
