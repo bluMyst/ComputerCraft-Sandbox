@@ -1,4 +1,7 @@
 -- vim: foldmethod=marker
+-- Requires {{{1
+require "ahtoMoon"
+
 -- TODOs {{{1
 -- TODO: folding isn't totally finished yet
 
@@ -336,10 +339,13 @@ getItemDetail = turtle.getItemDetail
 fuel = turtle.getFuelLevel
 
 function safeBlock(dir, list, isBlacklist) -- {{{1
-    -- TODO: better name
     -- Returns true if there's just air.
     -- also accepts single types instead of list
     -- lets you know if the block in a direction is or isn't in a list
+
+    -- TODO: better name
+    -- TODO: This function is broken with the new ComputerCraft:
+    --       http://computercraft.info/wiki/Turtle.inspect
 
     isBlacklist = isBlacklist or false -- just making it explicit
 

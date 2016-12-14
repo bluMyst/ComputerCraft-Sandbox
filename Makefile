@@ -1,5 +1,5 @@
 # All of the lua files that come from *.moon files.
-to_create = unittest/turtle.lua
+to_create = unittest/turtle.lua ahtoMoon.lua
 
 all: $(to_create)
 
