@@ -67,3 +67,68 @@ describe "direction constants", ->
 
     it "right", ->
         assert.is.equals RIGHT, R, dirs.right, dirs.r
+
+describe "turn tests", ->
+    -- Reset the heading before each test and after the describe block ends.
+    resetHeading = -> turtleAPIEmulator.heading = 0
+    before_each resetHeading
+    teardown resetHeading
+
+    describe "turn()", ->
+        it "left", ->
+            assert.is_true turn LEFT
+            assert.is.equal turtleAPIEmulator.heading, 270
+
+        it "right", ->
+            assert.is_true turn RIGHT
+            assert.is.equal turtleAPIEmulator.heading, 90
+
+        it "back", ->
+            assert.is_true turn BACK
+            assert.is.equal turtleAPIEmulator.heading, 180
+
+        it "invalid turns should return false", ->
+            assert.is_false turn UP
+            assert.is_false turn DOWN
+            assert.is_false turn FORWARD
+
+    describe "turnDo()", ->
+        it "left", ->
+            turnDo LEFT, ->
+                assert.is.equal turtleAPIEmulator.heading, 270
+
+            assert.is.equal turtleAPIEmulator.heading 0
+
+        it "right", ->
+            turnDo RIGHT, ->
+                assert.is.equal turtleAPIEmulator.heading, 90
+
+            assert.is.equal turtleAPIEmulator.heading 0
+
+        it "back", ->
+            turnDo BACK, ->
+                assert.is.equal turtleAPIEmulator.heading, 180
+
+            assert.is.equal turtleAPIEmulator.heading 0
+
+describe "slot-modifying tests", ->
+    -- Reset the heading before each test and after the describe block ends.
+    resetSlot = -> turtleAPIEmulator.selectedSlot = 1
+    before_each resetSlot
+    teardown resetSlot
+
+    it "slotDo", ->
+        for i in *{1, 2, 14, 16}
+            slotDo i, ->
+                assert.is.equal turtleAPIEmulator.selectedSlot, i
+
+            assert.is.equal turtleAPIEmulator.selectedSlot, 1
+
+    it "slotDoWrapper", ->
+        slotDoTest = slotDoWrapper (targetSlot, ...) ->
+            assert.is.equal turtleAPIEmulator.selectedSlot, targetSlot
+            return {...}
+
+        assert.is.same slotDoTest(2, 2, 'foo', 'bar'), {'foo', 'bar'}
+        assert.is.same slotDoTest(1, 1, 'baz'), {'baz'}
+        assert.is.same slotDoTest(16, 16), {}
