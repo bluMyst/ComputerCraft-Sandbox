@@ -1,9 +1,9 @@
 # All of the lua files that come from *.moon files.
-to_compile = unittest/turtle.lua
+to_create = unittest/turtle.lua
 
-all: $(to_compile)
+all: $(to_create)
 
-test: test.moon $(to_compile)
+test: test.moon $(to_create)
 	busted $<
 
 %.lua: %.moon
