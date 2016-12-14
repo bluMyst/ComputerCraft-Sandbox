@@ -113,7 +113,7 @@ export class TurtleAPIEmulator
     -------------------------------------------------------------
     -------------------- Inventory and fuel. --------------------
     -------------------------------------------------------------
-    setSelectedSlot: (slot) => @selectedSlot = slot
+    select: (slot) => @selectedSlot = slot
     getSelectedSlot:        => @selectedSlot
 
     getFuelLevel: => @fuelLevel
