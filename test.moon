@@ -179,6 +179,8 @@ describe "fuel-modifying", ->
 
     describe "Fueler", ->
         -- I hope this doesn't overwrite the old before_each!
+        local fueler
+
         before_each ->
             fueler = Fueler\create 16
 
