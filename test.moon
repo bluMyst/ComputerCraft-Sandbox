@@ -178,7 +178,11 @@ describe "fuel-modifying", ->
             assert.is.equal fuel(), turtleAPIEmulator.fuelLevel
 
     describe "Fueler", ->
-        fueler = Fueler\create 16
+        -- I hope this doesn't overwrite the old before_each!
+        local fueler
+
+        before_each ->
+            fueler = Fueler\create 16
 
         it "move forward a bunch", ->
             for _=1, 16
