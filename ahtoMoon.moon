@@ -79,8 +79,58 @@ export turnDo = (dir, f) ->
     -- TODO: eDir is a horrible variable name.
     eDir = if isTurnDir(dir) then FORWARD else dir
 
-    turn(dir)
-    return_ = { f(eDir) }
-    turnBack(dir)
+    turn dir
+    return_ = { f eDir }
+    turnBack dir
 
-    return unpack(return_)
+    return unpack return_
+
+export slotDo = (slot, f) ->
+    oldSlot = turtle.getSelectedSlot()
+
+    turtle.select slot
+    return_ = { f() }
+    turtle.select oldSlot
+
+    return unpack return_
+
+export slotDoWrapper = (f) ->
+    return (slot, ...) ->
+        f_with_args = -> f ...
+        return slotDo slot, f_with_args
+
+export turnDoWrapper = (f, u, d, b=nil) ->
+    -- TODO: Better name.
+    -- forward, up, down, back (optional)
+    -- this is for turtle functions like dig where there's dig (forward), digUp, and digDown
+
+    return (dir, ...) ->
+        func = switch dir
+            when FORWARD then f
+            when UP      then u
+            when DOWN    then d
+            when BACK    then b
+            else              nil
+
+        -- If we need to turn to reach a certain direction, then we should
+        -- turnDo it.
+        if func == nil
+            return turnDo dir, -> f ...
+
+        return func ...
+
+-- turnDoWrapped functions
+export move    = turnDoWrapper turtle.forward, turtle.up,        turtle.down,        turtle.back
+export attack  = turnDoWrapper turtle.attack,  turtle.attackUp,  turtle.attackDown
+export place   = turnDoWrapper turtle.place,   turtle.placeUp,   turtle.placeDown
+export detect  = turnDoWrapper turtle.detect,  turtle.detectUp,  turtle.detectDown
+export inspect = turnDoWrapper turtle.inspect, turtle.inspectUp, turtle.inspectDown
+export compare = turnDoWrapper turtle.compare, turtle.compareUp, turtle.compareDown
+
+-- slotDoWrapped functions
+-- TODO: Untested.
+export drop = slotDoWrapper( turnDoWrapper(turtle.drop, turtle.dropUp, turtle.dropDown) )
+export suck = slotDoWrapper( turnDoWrapper(turtle.suck, turtle.suckUp, turtle.suckDown) )
+-- E.G.:
+-- drop(slot, direction)
+-- suck(slot, direction)
