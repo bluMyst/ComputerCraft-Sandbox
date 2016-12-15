@@ -153,11 +153,6 @@ function inheritsFrom( baseClass ) -- {{{1
 end
 
 -- direction constants
-function isTurnDir(dir) -- {{{1
-    -- this is a direction we need to turn to reach
-    return inTable( dir, {dirs.left, dirs.right, dirs.back} )
-end
-
 function slotDo(slot, f) -- {{{1
     local oldSlot = turtle.getSelectedSlot()
 
