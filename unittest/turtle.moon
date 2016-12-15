@@ -156,4 +156,6 @@ export turtle = setmetatable {}, {
                 return oldFunction turtleAPIEmulator, ...
 
         return value
+
+    __newindex: turtleAPIEmulator
 }
