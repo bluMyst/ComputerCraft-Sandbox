@@ -122,6 +122,7 @@ export class TurtleAPIEmulator
         -- Only gives a tiny amount of fuel at a time, to stress-test refueling
         -- code.
         @fuelLevel += 4
+        return true
 
     useFuel: (amount=1) =>
         -- Returns whether we have that much fuel available. If so, subtracts
