@@ -3,7 +3,9 @@ if not os.loadAPI 'ahto' then
     exit()
 end
 
--- ---------- CONFIG HERE ----------
+------------------------------------------------
+-------------------- CONFIG --------------------
+------------------------------------------------
 
 -- Maximum distance to mine.
 MAX_DIST  = 32
@@ -11,7 +13,9 @@ MAX_DIST  = 32
 -- Slot to get fuel from.
 FUEL_SLOT = 16
 
--- ---------- END OF CONFIG ----------
+---------------------------------------------------
+-------------------- CONSTANTS --------------------
+---------------------------------------------------
 
 -- What we're looking for.
 ORE_TYPES = {
@@ -41,7 +45,9 @@ ROCK_TYPES = {
 -- Obviously it's safe to dig up ores.
 ahto.tableAppend(ROCK_TYPES, ORE_TYPES)
 
-
+---------------------------------------------------
+-------------------- MAIN CODE --------------------
+---------------------------------------------------
 
 function fatal(s)
     print("FATAL: "..s)
